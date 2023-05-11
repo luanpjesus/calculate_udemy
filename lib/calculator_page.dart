@@ -19,6 +19,7 @@ class _CalculatorState extends State<Calculator> {
     heightController.text = "";
     setState(() {
       _infoText = "Informe seus dados";
+      _formKey = GlobalKey<FormState>();
     });
   }
 
