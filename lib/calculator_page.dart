@@ -8,6 +8,7 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
 
@@ -51,49 +52,71 @@ class _CalculatorState extends State<Calculator> {
             ),
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  height: 200,
-                  child: const Icon(
-                    Icons.person,
-                    size: 150,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: "Peso (KG)"),
-                  controller: weightController,
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: "Altura (CM)"),
-                  controller: heightController,
-                ),
-                ElevatedButton(
-                    onPressed: _calculate, child: const Text("Calcular")),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: 40,
-                    child: Text(
-                      _infoText,
-                      style: const TextStyle(
-                        color: Colors.cyan,
-                        fontSize: 30,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      height: 200,
+                      child: const Icon(
+                        Icons.person,
+                        size: 150,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ),
-                )
-              ]),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Informe seus Peso";
+                        }
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: "Peso (KG)"),
+                      controller: weightController,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Informe sua Altura";
+                        }
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration:
+                          const InputDecoration(labelText: "Altura (CM)"),
+                      controller: heightController,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _calculate();
+                        }
+                      },
+                      child: const Text("Calcular"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 40,
+                        child: Text(
+                          _infoText,
+                          style: const TextStyle(
+                            color: Colors.cyan,
+                            fontSize: 30,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  ]),
+            ),
+          ),
         ),
       ),
     );
