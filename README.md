@@ -7,4 +7,4 @@ A new Flutter project.
 This project is a starting point for a Flutter application.
 
 # Finalizar esse projeto em uma semana
-- [ ] Finalizado
+- [x] Finalizado
